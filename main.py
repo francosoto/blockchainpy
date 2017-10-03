@@ -1,9 +1,8 @@
+# -*- coding: utf-8 -*-
 import redis, hashlib, json, sys
 # I dont know where are your Redis server! 
 r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
-
-# r.set('foo', 'bar')
 
 def hashMe(msg=""):
     # For convenience, this is a helper function that wraps our hashing algorithm
@@ -14,3 +13,7 @@ def hashMe(msg=""):
         return unicode(hashlib.sha256(msg).hexdigest(),'utf-8')
     else:
         return hashlib.sha256(str(msg).encode('utf-8')).hexdigest()
+
+hashTransaction = hashMe('hola')
+r.set('tran_' + hashTransaction, unicode('Soy una transacción','utf-8'))
+print(unicode('Nueva transacción: ','utf-8') + hashTransaction)
